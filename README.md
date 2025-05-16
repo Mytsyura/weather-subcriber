@@ -22,8 +22,8 @@ A service that allows users to subscribe to weather updates for specific cities.
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd weather_subscription
+git clone https://github.com/Mytsyura/weather-subcriber.git
+cd weather-subcriber
 ```
 
 2. Install dependencies:
