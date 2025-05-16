@@ -111,3 +111,25 @@ When running in local environment (ENV=local):
 - Emails are sent to Mailhog
 - View emails at http://localhost:8025
 - No SMTP authentication required
+
+## Running with Docker Compose
+
+You can run the entire project (Go app, PostgreSQL, Mailhog) using Docker Compose. This is the easiest way to get started without installing dependencies locally.
+
+### Prerequisites
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### Steps
+1. Make sure you have your `config/config.yaml` file set up (see Configuration section above).
+2. In the project root, run:
+   ```bash
+   docker-compose up --build
+   ```
+3. The application will be available at [http://localhost:8080](http://localhost:8080)
+4. Mailhog (for email testing) will be available at [http://localhost:8025](http://localhost:8025)
+
+To stop and remove all containers, volumes, and networks:
+```bash
+docker-compose down -v
+```
