@@ -2,16 +2,14 @@ dbAddr: "localhost:5432"
 dbName: "weather_subscription"
 dbUser: "postgres"
 dbPass: "postgres"
-serverPort: "8080" 
+serverPort: "8080"
 weather_api:
-  key: "{set_up_your_key}"
+  key: "your-key-here"
 email:
-  # Local development settings (used when ENV=local)
   local:
     from: "noreply@weather-subscription.com"
     smtpHost: "localhost"
     smtpPort: "1025"
-  # Production settings (used when ENV=production)
   production:
     from: "${EMAIL_FROM}"
     password: "${EMAIL_PASSWORD}"

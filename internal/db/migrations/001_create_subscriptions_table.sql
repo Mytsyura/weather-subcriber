@@ -8,7 +8,16 @@ CREATE TABLE IF NOT EXISTS subscriptions (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ); 
 
+DO
+$do$
+BEGIN
+   IF NOT EXISTS (
+      SELECT FROM pg_catalog.pg_roles
+      WHERE  rolname = 'postgres') THEN
+      CREATE USER postgres with encrypted password 'postgres';
+   END IF;
+END
+$do$;
 
-CREATE USER postgres with encrypted password 'postgres';
-
-GRANT READ, WRITE, UPDATE, DELETE ON DATABASE weather_subscription TO postgres;
+GRANT ALL PRIVILEGES ON DATABASE weather_subscription TO postgres;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO postgres;

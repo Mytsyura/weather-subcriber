@@ -1,5 +1,5 @@
 # Build stage
-FROM golang:1.21-alpine AS builder
+FROM golang:1.23-alpine AS builder
 
 WORKDIR /app
 
@@ -13,7 +13,7 @@ RUN go mod download
 COPY . .
 
 # Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -o main ./cmd/api
+RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
 # Final stage
 FROM alpine:latest
@@ -22,6 +22,8 @@ WORKDIR /app
 
 # Copy the binary from builder
 COPY --from=builder /app/main .
+COPY --from=builder /app/config ./config
+COPY ./frontend ./frontend
 
 # Expose port
 EXPOSE 8080

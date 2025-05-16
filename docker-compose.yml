@@ -12,13 +12,16 @@ services:
       - DB_PASSWORD=postgres
       - DB_NAME=weather_subscription
       - SERVER_PORT=8080
-      - ENV=production
-      - EMAIL_FROM=your-email@gmail.com
-      - EMAIL_PASSWORD=your-app-specific-password
-      - EMAIL_SMTP_HOST=smtp.gmail.com
-      - EMAIL_SMTP_PORT=587
+      - ENV=local
+      - EMAIL_FROM=noreply@weather-subscription.com
+      - EMAIL_SMTP_HOST=mailhog
+      - EMAIL_SMTP_PORT=1025
+    volumes:
+      - ./config:/app/config
+      - ./frontend:/app/frontend
     depends_on:
       - postgres
+      - mailhog
 
   postgres:
     image: postgres:15-alpine
@@ -27,9 +30,23 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=weather_subscription
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./internal/db/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025" # SMTP server
+      - "8025:8025" # Web interface
+    environment:
+      - MH_HOSTNAME=mailhog
 
 volumes:
   postgres_data: 
